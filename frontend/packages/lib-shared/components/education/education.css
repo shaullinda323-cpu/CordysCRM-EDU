@@ -1,0 +1,82 @@
+.edu-panel {
+  padding: 16px;
+  color: var(--text-n1, #20252d);
+  font: inherit;
+}
+.edu-panel h2,
+.edu-panel h3,
+.edu-panel h4 {
+  margin: 20px 0 12px;
+  font-weight: 600;
+}
+.edu-panel p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+.edu-panel fieldset {
+  margin: 12px 0;
+  padding: 0;
+  min-width: 0;
+  border: 0;
+}
+.edu-panel label {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.edu-panel input,
+.edu-panel select,
+.edu-panel textarea {
+  padding: 8px 10px;
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--text-n7, #cbd5e1);
+  border-radius: 6px;
+  color: inherit;
+  background: var(--text-n10, #ffffff);
+  box-sizing: border-box;
+  font: inherit;
+}
+.edu-panel textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.edu-panel button,
+.edu-panel a {
+  display: inline-block;
+  margin: 4px 8px 4px 0;
+  padding: 10px 14px;
+  min-height: 42px;
+  border: 1px solid var(--text-n7, #cbd5e1);
+  border-radius: 6px;
+  color: var(--primary-8, #2563eb);
+  background: var(--text-n10, #ffffff);
+  cursor: pointer;
+  font: inherit;
+}
+.edu-panel :disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.edu-panel :focus-visible {
+  outline: 2px solid var(--primary-8, #2563eb);
+  outline-offset: 2px;
+}
+.edu-panel [role='alert'] {
+  color: #b42318;
+}
+.edu-card {
+  margin: 12px 0;
+  padding: 16px;
+  border: 1px solid var(--text-n8, #e2e8f0);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 12px;
+}
+.edu-panel ul {
+  padding-left: 20px;
+}

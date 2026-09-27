@@ -118,7 +118,8 @@ const useUserStore = defineStore('user', {
 
       removeRouteListener();
       appStore.hideLoading();
-      router.push({ name: 'login' });
+      // Login waits for logout navigation so the route guard cannot cancel its new request.
+      return router.push({ name: 'login' });
     },
     // 登出
     async logout(silence = false) {
@@ -130,7 +131,7 @@ const useUserStore = defineStore('user', {
         }
         await signout();
       } finally {
-        this.logoutCallBack();
+        await this.logoutCallBack();
       }
     },
     // 获取登录认证方式

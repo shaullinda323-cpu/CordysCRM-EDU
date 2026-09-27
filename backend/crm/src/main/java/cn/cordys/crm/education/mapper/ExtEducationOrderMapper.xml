@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cordys.crm.education.mapper.ExtEducationOrderMapper">
+    <select id="lockOrder" resultType="cn.cordys.crm.order.domain.Order">
+        SELECT * FROM sales_order WHERE id = #{id} AND organization_id = #{orgId} FOR UPDATE
+    </select>
+    <select id="lockSnapshot" resultType="cn.cordys.crm.order.domain.OrderSnapshot">
+        SELECT * FROM sales_order_snapshot WHERE order_id = #{id} FOR UPDATE
+    </select>
+    <select id="countRow" resultType="int">
+        SELECT COUNT(*) FROM sales_order_field WHERE resource_id = #{orderId} AND ref_sub_id = #{subFieldId} AND biz_id = #{rowId}
+    </select>
+</mapper>

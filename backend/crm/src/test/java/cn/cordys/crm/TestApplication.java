@@ -19,6 +19,13 @@ import org.springframework.context.annotation.ComponentScan;
 )
 public class TestApplication {
 
+    static {
+        // Tests must not require write access to the production /opt directory.
+        if (System.getProperty("cordys.files.root") == null) {
+            System.setProperty("cordys.files.root", java.nio.file.Path.of("target", "test-files").toAbsolutePath().toString());
+        }
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(TestApplication.class, args);
     }

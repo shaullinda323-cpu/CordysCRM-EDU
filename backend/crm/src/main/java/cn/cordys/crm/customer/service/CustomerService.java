@@ -1,5 +1,7 @@
 package cn.cordys.crm.customer.service;
 
+import cn.cordys.crm.education.service.EducationRelationshipGuard;
+
 import cn.cordys.aspectj.annotation.OperationLog;
 import cn.cordys.aspectj.constants.LogModule;
 import cn.cordys.aspectj.constants.LogType;
@@ -103,6 +105,8 @@ import java.util.stream.Stream;
 @Transactional(rollbackFor = Exception.class)
 @Slf4j
 public class CustomerService {
+    @Resource
+    private EducationRelationshipGuard educationRelationshipGuard;
 
     @Resource
     private BaseMapper<Customer> customerMapper;
@@ -616,6 +620,7 @@ public class CustomerService {
     }
 
     public void deleteCustomerResource(List<String> ids) {
+        educationRelationshipGuard.requireNoStudents(ids);
         // 统计字段: 删除会一并带走关联字段的值, 宿主关系只能删前先捕; 重算要等下面全部删完才准。
         // 挂在这里而不是两个公开入口上: 客户删除、客户批量删除、公海里的两种删除最后都走这一处,
         // 而且捕获时客户还在、重算时已被本方法删掉, 级联进来的重算会被统计字段服务侧的存在性判断挡掉。
@@ -972,6 +977,8 @@ public class CustomerService {
      */
     @OperationLog(module = LogModule.CUSTOMER_INDEX, type = LogType.MERGE, resourceId = "{#request.toMergeId}")
     public void merge(CustomerMergeRequest request, String currentUser, String currentOrgId) {
+        educationRelationshipGuard.requireNoStudents(request.getMergeIds());
+        educationRelationshipGuard.requireNoStudents(List.of(request.getToMergeId()));
         /*
          * 规则:
          * 1. 合并客户联系人, 客户关联商机.

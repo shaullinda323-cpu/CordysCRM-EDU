@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cordys.crm.education.mapper.ExtEducationEnrollmentMapper">
+    <select id="lock" resultType="cn.cordys.crm.education.domain.EducationEnrollment">
+        SELECT * FROM edu_enrollment WHERE id=#{id} AND organization_id=#{org} FOR UPDATE
+    </select>
+    <select id="findRequest" resultType="cn.cordys.crm.education.domain.EducationEnrollment">
+        SELECT * FROM edu_enrollment WHERE student_id=#{student} AND request_key=#{key} AND organization_id=#{org} FOR UPDATE
+    </select>
+    <select id="findRow" resultType="cn.cordys.crm.education.domain.EducationEnrollment">
+        SELECT * FROM edu_enrollment WHERE order_id=#{order} AND sub_field_id=#{field} AND order_row_id=#{row} AND organization_id=#{org} FOR UPDATE
+    </select>
+    <select id="lockReceipt" resultType="cn.cordys.crm.contract.domain.ContractPaymentRecord">
+        SELECT * FROM contract_payment_record WHERE id=#{id} AND organization_id=#{org} FOR UPDATE
+    </select>
+    <select id="allocated" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(amount),0) FROM edu_payment_allocation WHERE enrollment_id=#{enrollment}
+    </select>
+    <select id="receiptAllocated" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(amount),0) FROM edu_payment_allocation WHERE receipt_id=#{receipt}
+    </select>
+</mapper>
