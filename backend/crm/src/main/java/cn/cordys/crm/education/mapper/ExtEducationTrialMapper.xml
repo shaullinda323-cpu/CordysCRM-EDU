@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cordys.crm.education.mapper.ExtEducationTrialMapper">
+    <select id="lock" resultType="cn.cordys.crm.education.domain.EducationTrial">
+        SELECT * FROM edu_trial WHERE id = #{id} AND organization_id = #{orgId} FOR UPDATE
+    </select>
+    <select id="findRequest" resultType="cn.cordys.crm.education.domain.EducationTrial">
+        SELECT * FROM edu_trial WHERE student_id = #{studentId} AND request_key = #{requestKey}
+        AND organization_id = #{orgId} FOR UPDATE
+    </select>
+</mapper>

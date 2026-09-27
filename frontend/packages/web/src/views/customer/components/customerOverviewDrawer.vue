@@ -47,6 +47,11 @@
             @refresh="emit('refresh')"
           />
         </div>
+        <FamilyStudents
+          v-if="activeTab === 'educationStudents' && show"
+          :customer-id="props.sourceId"
+          :readonly="collaborationType === 'READ_ONLY' || props.readonly"
+        />
         <div v-if="activeTab === 'contact'" class="h-full px-[24px] pt-[24px]">
           <ContactTable
             :refresh-key="refreshKey"
@@ -176,6 +181,7 @@
   import customerRelation from './customerRelation.vue';
   import ContractTimeline from '@/views/contract/contract/components/contractTimeline.vue';
   import ContractDetailDrawer from '@/views/contract/contract/components/detail.vue';
+  import FamilyStudents from '@/views/education/familyStudents.vue';
   import opportunityTable from '@/views/opportunity/components/opportunityTable.vue';
   import OrderTable from '@/views/order/order/components/orderTable.vue';
 
@@ -355,7 +361,9 @@
     staticTabList,
     availableDetailTabIds
   );
-  const showDetailTabs = computed(() => enabledDetailTabList.value.length > 0);
+  const showDetailTabs = computed(
+    () => enabledDetailTabList.value.length > 0 || hasAnyPermission(['CUSTOMER_MANAGEMENT:READ'])
+  );
   const { getDetailTabTable } = useFormDetailTabTable();
   const customDetailTabTableList = computed(() =>
     customDetailTabList.value.flatMap((tab) => {
@@ -370,6 +378,9 @@
       tab: t('crmFormDesign.customer'),
       enable: true,
     },
+    ...(hasAnyPermission(['CUSTOMER_MANAGEMENT:READ'])
+      ? [{ name: 'educationStudents', tab: t('education.students'), enable: true }]
+      : []),
     ...settingTabList.value,
   ]);
 

@@ -70,7 +70,8 @@ public final class DefaultRepositoryDir {
      * @return 默认目录路径
      */
     public static String getDefaultDir() {
-        return DEFAULT_DIR;
+        // Allow isolated test/development storage while retaining the production default.
+        return System.getProperty("cordys.files.root", DEFAULT_DIR);
     }
 
     /**
@@ -79,7 +80,7 @@ public final class DefaultRepositoryDir {
      * @return 完整的临时目录路径
      */
     public static Path getFullTmpPath() {
-        return Paths.get(DEFAULT_DIR, TMP_DIR);
+        return Paths.get(getDefaultDir(), TMP_DIR);
     }
 
     /**
@@ -88,7 +89,7 @@ public final class DefaultRepositoryDir {
      * @return 完整的图片目录路径
      */
     public static Path getFullPicPath() {
-        return Paths.get(DEFAULT_DIR, PIC_DIR);
+        return Paths.get(getDefaultDir(), PIC_DIR);
     }
 
     /**
@@ -99,7 +100,7 @@ public final class DefaultRepositoryDir {
      * @return 完整的导出目录路径
      */
     public static Path getFullExportPath(String orgId) {
-        return Paths.get(DEFAULT_DIR, orgId, EXPORT_DIR);
+        return Paths.get(getDefaultDir(), orgId, EXPORT_DIR);
     }
 
     /**

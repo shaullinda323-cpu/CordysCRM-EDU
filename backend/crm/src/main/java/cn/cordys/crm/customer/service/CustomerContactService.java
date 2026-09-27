@@ -1,5 +1,7 @@
 package cn.cordys.crm.customer.service;
 
+import cn.cordys.crm.education.service.EducationRelationshipGuard;
+
 import cn.cordys.aspectj.annotation.OperationLog;
 import cn.cordys.aspectj.constants.LogModule;
 import cn.cordys.aspectj.constants.LogType;
@@ -91,6 +93,8 @@ import java.util.stream.Collectors;
 @Transactional(rollbackFor = Exception.class)
 @Slf4j
 public class CustomerContactService {
+    @Resource
+    private EducationRelationshipGuard educationRelationshipGuard;
     @Resource
     private BaseMapper<CustomerContact> customerContactMapper;
     @Resource
@@ -364,6 +368,11 @@ public class CustomerContactService {
             updateModuleField(customerContact, request.getModuleFields(), orgId, userId);
         }
 
+        // Custom business fields can change the customer too; validate the resolved entity before persistence.
+        if (customerContact.getCustomerId() != null
+                && !customerContact.getCustomerId().equals(originCustomerContact.getCustomerId())) {
+            educationRelationshipGuard.requireUnlinkedContact(customerContact.getId());
+        }
         customerContactMapper.update(customerContact);
         // 统计字段: 改前改后关联到的宿主记录都要重算(关联没动时这两批是同一批, 去重后只算一次)
         statisticFieldService.refreshAfterRelatedChange(statisticScope, List.of(request.getId()));
@@ -386,6 +395,7 @@ public class CustomerContactService {
 
     @OperationLog(module = LogModule.CUSTOMER_CONTACT, type = LogType.DELETE, resourceId = "{#id}")
     public void delete(String id) {
+        educationRelationshipGuard.requireUnlinkedContact(id);
         CustomerContact originCustomerContact = customerContactMapper.selectByPrimaryKey(id);
         if (originCustomerContact == null) {
             return;

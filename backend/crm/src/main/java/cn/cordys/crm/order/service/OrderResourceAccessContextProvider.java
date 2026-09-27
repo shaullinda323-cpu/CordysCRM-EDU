@@ -26,7 +26,8 @@ public class OrderResourceAccessContextProvider implements ResourceAccessContext
     @Override
     public ResourceAccessContext getAccessContext(String resourceId, String orgId) {
         Order order = orderMapper.selectByPrimaryKey(resourceId);
-        if (order == null) {
+        // Primary-key lookups are not tenant-filtered by BaseMapper.
+        if (order == null || orgId == null || !orgId.equals(order.getOrganizationId())) {
             return null;
         }
         ResourceAccessContext context = new ResourceAccessContext();
@@ -41,6 +42,7 @@ public class OrderResourceAccessContextProvider implements ResourceAccessContext
             return Map.of();
         }
         return orderMapper.selectByIds(resourceIds).stream()
+                .filter(order -> orgId != null && orgId.equals(order.getOrganizationId()))
                 .filter(order -> order.getOwner() != null)
                 .collect(Collectors.toMap(Order::getId, Order::getOwner, (a, b) -> a));
     }

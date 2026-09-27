@@ -10,6 +10,11 @@
         <div v-if="tab.name === 'info'" class="relative h-full overflow-auto bg-[var(--text-n9)] pt-[16px]">
           <CrmDescription :description="descriptions" :source-id="sourceId" />
         </div>
+        <FamilyPanel
+          v-else-if="tab.name === 'education'"
+          :customer-id="sourceId"
+          :readonly="collaborationType === 'READ_ONLY'"
+        />
         <CrmContactList
           v-else-if="tab.name === 'contact'"
           :source-id="route.query.id?.toString()"
@@ -76,6 +81,7 @@
   import CrmHeaderList from '@/components/business/crm-header-list/index.vue';
   import collaborator from './components/collaborator.vue';
   import relation from './components/relation.vue';
+  import FamilyPanel from '@/views/education/family-panel.vue';
 
   import { deleteCustomer, getCustomerHeaderList } from '@/api/modules';
   import useFormCreateApi from '@/hooks/useFormCreateApi';
@@ -100,6 +106,7 @@
   const activeTab = ref('info');
   const tabList = computed(() => {
     const fullTabList = [
+      { name: 'education', title: t('education.students') },
       {
         name: 'info',
         title: t('customer.info'),

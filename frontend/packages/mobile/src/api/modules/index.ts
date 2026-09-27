@@ -7,6 +7,7 @@ import useClueApi from '@lib/shared/api/modules/clue';
 import useContractApi from '@lib/shared/api/modules/contract';
 import useCustomerApi from '@lib/shared/api/modules/customer';
 import useCustomFormApi from '@lib/shared/api/modules/customForm';
+import useEducationApi from '@lib/shared/api/modules/education';
 import useFollowApi from '@lib/shared/api/modules/follow';
 import useOpportunityApi from '@lib/shared/api/modules/opportunity';
 import useOrderApi from '@lib/shared/api/modules/order';
@@ -502,3 +503,5 @@ export const {
   reviewResource,
   getCCStatistic,
 } = processApi;
+
+export const educationApi = useEducationApi(CDR);

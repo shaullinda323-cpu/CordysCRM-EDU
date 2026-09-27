@@ -16,6 +16,11 @@
       </van-badge>
     </div>
     <div class="flex flex-1 flex-col overflow-auto">
+      <router-link
+        class="m-[12px] rounded-[8px] bg-[var(--text-n10)] p-[16px] text-[var(--primary-8)]"
+        to="/education/index"
+        >{{ t('edu.workbench') }}</router-link
+      >
       <div>
         <van-notice-bar
           v-if="useStore.userInfo.defaultPwd"
@@ -165,8 +170,8 @@
   import useAppStore from '@/store/modules/app';
   // import useLicenseStore from '@/store/modules/setting/license';
   import useUserStore from '@/store/modules/user';
-  // import showNoLicenseDialog from '@/utils/license';
 
+  // import showNoLicenseDialog from '@/utils/license';
   import { CommonRouteEnum, MineRouteEnum, WorkbenchRouteEnum } from '@/enums/routeEnum';
 
   import { lastScopedOptions } from './duplicateCheck/config';

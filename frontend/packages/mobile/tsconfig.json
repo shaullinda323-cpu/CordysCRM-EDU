@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "include": [
     "src/**/*",
+    "../lib-shared/components/education/**/*.vue",
     "types/**/*",
     "*.d.ts"
   ],

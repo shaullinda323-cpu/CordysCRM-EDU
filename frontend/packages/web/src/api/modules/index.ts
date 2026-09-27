@@ -6,6 +6,7 @@ import useContractApi from '@lib/shared/api/modules/contract';
 import useCustomerApi from '@lib/shared/api/modules/customer';
 import useCustomFormApi from '@lib/shared/api/modules/customForm';
 import useDashboard from '@lib/shared/api/modules/dashboard';
+import useEducationApi from '@lib/shared/api/modules/education';
 import useFollowApi from '@lib/shared/api/modules/follow';
 import useHomeApi from '@lib/shared/api/modules/home';
 import useOpportunityApi from '@lib/shared/api/modules/opportunity';
@@ -958,3 +959,8 @@ export const {
   testApprovalWebHook,
   getCCStatistic,
 } = processApi;
+
+export const { getEducationStudents, createEducationStudent, getEducationGuardians, linkEducationGuardian } =
+  useEducationApi(CDR);
+
+export const educationApi = useEducationApi(CDR);
